@@ -99,8 +99,8 @@
 		}
 		
 		private function cookieSrc(){
-			return '<script type="text/javascript" src="/cookie/cookie.js"></script>
-				<link type="text/css" rel="stylesheet" href="/cookie/cookie.css" media="all"/>
+			return '<script type="text/javascript" src="/cookieConsent/js/cookie.js"></script>
+				<link type="text/css" rel="stylesheet" href="/cookieConsent/css/cookie.css" media="all"/>
 			';
 		}
 		
