@@ -3,8 +3,8 @@
     namespace Common;
 	
 	/**
-	 * Class Database
-	 */
+	 * Class Common\Database
+	*/
 	class Database{
     	protected $conn;
 		protected const dbUser = "";
@@ -144,6 +144,25 @@
 			}
 			$result = $stmt->execute();
 			return $result;
+		}
+
+		private function createQuery($tableName, $columns){
+			try {
+				$query = "CREATE TABLE IF NOT EXISTS " . self::tbl_prefix . $tableName . " (";
+				foreach ($columns as $columnName => $columnDefinition) {
+					$query .= $columnName . " " . $columnDefinition . ",";
+				}
+				$query = rtrim($query, ",") . ")";
+				$stmt = $this->conn->prepare($query);
+				$stmt->execute();
+				return true;
+			} catch (\PDOException $e) {
+				return false;
+			}
+		}
+
+		public function create($tableName, $columns){
+			$this->createQuery($tableName, $columns);
 		}
 
 		public function select($table, $columns, $where, $order,$group = null) {

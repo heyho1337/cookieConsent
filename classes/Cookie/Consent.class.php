@@ -1,8 +1,18 @@
 <?php
-	class cookie extends Database{
+	
+	namespace Cookie;
+	
+	/**
+	 * Class Cookie\Consent
+	*/
+	class Consent extends \Common\Database{
+		
+		protected array $wordsTable = [
+			'word_id' => 'INT AUTO_INCREMENT PRIMARY KEY',
+			'word_code' => 'VARCHAR(50)'
+		];
 		
 		function __construct(protected string $gtagCode,protected string $lang){
-			$this->gtagCode = $gtagCode;
 			echo $this->cookieSrc();
 			echo '<script>'
 				.$this->gtagInit()
@@ -104,18 +114,6 @@
 			';
 		}
 		
-		public function setText(){
-			$this->insertText('cookie','cookie basic text');
-			$this->insertText('cookie_options0','ad_storage text');
-			$this->insertText('cookie_options1','ad_user_data text');
-			$this->insertText('cookie_options2','ad_personalization text');
-			$this->insertText('cookie_options3','analytics_storage');
-			$this->insertText('cookie_deny','Deny');
-			$this->insertText('cookie_setup','Options');
-			$this->insertText('cookie_select','Accept options');
-			$this->insertText('cookie_allow','Accep');
-		}
-		
 		private function cookieHTML(){
 			return '<div class="google_cookie">
 					<span>'.$this->transLate("cookie",$this->lang).'</span>
@@ -168,6 +166,23 @@
 			if($word['status'] === 'success'){
 				return $word->{'word_'.$this->lang};
 			}
+		}
+
+		public function setText(){
+			$this->insertText('cookie','cookie basic text');
+			$this->insertText('cookie_options0','ad_storage text');
+			$this->insertText('cookie_options1','ad_user_data text');
+			$this->insertText('cookie_options2','ad_personalization text');
+			$this->insertText('cookie_options3','analytics_storage');
+			$this->insertText('cookie_deny','Deny');
+			$this->insertText('cookie_setup','Options');
+			$this->insertText('cookie_select','Accept options');
+			$this->insertText('cookie_allow','Accep');
+		}
+
+		public function createWordsTable(){
+			$this->wordsTable['word_'.$this->lang] = 'TEXT';
+			$this->create('words',$this->wordsTable);
 		}
 		
 	}
