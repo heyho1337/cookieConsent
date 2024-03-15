@@ -1,8 +1,8 @@
 # cookieConsent
 google cookie consent mode php module
 
-#status
+# status
 under developement
 
-#install
+# install
 soon
