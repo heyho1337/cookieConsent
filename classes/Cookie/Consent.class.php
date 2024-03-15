@@ -5,7 +5,7 @@
 	/**
 	 * Class Cookie\Consent
 	*/
-	class Consent extends \Common\Database{
+	class Consent extends \Common\PDO{
 		
 		protected array $wordsTable = [
 			'word_id' => 'INT AUTO_INCREMENT PRIMARY KEY',
