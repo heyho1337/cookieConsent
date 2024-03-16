@@ -1,11 +1,11 @@
 <?php
     
-    namespace Common;
+    namespace Db;
 	
 	/**
-	 * Class Common\Firebase
+	 * Class Db\FirebaseDb
 	*/
-	class Firebase extends Database{
+	class FirebaseDb extends Database{
 
 		function __construct(){
 

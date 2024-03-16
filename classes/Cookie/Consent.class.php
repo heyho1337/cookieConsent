@@ -5,7 +5,7 @@
 	/**
 	 * Class Cookie\Consent
 	*/
-	class Consent extends \Common\PDO{
+	class Consent extends \Db\SqlDb{
 		
 		protected array $wordsTable = [
 			'word_id' => 'INT AUTO_INCREMENT PRIMARY KEY',
@@ -14,109 +14,15 @@
 		
 		function __construct(protected string $gtagCode,protected string $lang){
 			echo $this->cookieSrc();
-			echo '<script>'
-				.$this->gtagInit()
-				.$this->gtagAction()
-				.$this->setGtag()
-				.'</script>';
+			echo '<script>
+				const consentJS = new ConsentJS("'.$this->gtagCode.'", "'.$this->lang.'");
+				</script>';
 			echo $this->cookieHTML();
-		}
-		
-		private function gtagInit(){
-			return "window.dataLayer = window.dataLayer || [];
-				function gtag(){dataLayer.push(arguments);}
-				gtag('js', new Date());
-				
-				if($.cookie('cookie_accept') !== 'true'){
-					gtag('consent', 'default', {
-					  'ad_storage': 'denied',
-					  'ad_user_data': 'denied',
-					  'ad_personalization': 'denied',
-					  'analytics_storage': 'denied'
-					});
-
-					gtag('consent', 'update', {
-						'ad_storage': 'denied',
-						'ad_user_data': 'denied',
-						'ad_personalization': 'denied',
-						'analytics_storage': 'denied'
-					});
-				}
-				
-				if($.cookie('cookie_accept') === 'true'){
-					gtag('consent', 'update', {
-					  'ad_storage': setGtag('ad_storage'),
-					  'ad_user_data': setGtag('ad_user_data'),
-					  'ad_personalization': setGtag('ad_personalization'),
-					  'analytics_storage': setGtag('analytics_storage')
-					});
-				}
-				
-				gtag('config', '".$this->gtagCode."');
-				
-				$(document).ready(function(){
-					if($.cookie('cookie_accept') != 'true'){
-						$('.google_cookie').addClass('showCookie');
-					}
-				});
-			";
-		}
-		
-		private function setGtag(){
-			return "function setGtag(name){
-				if($.cookie(name) === 'granted'){
-					return 'granted';
-				}
-				else{
-					return 'denied';
-				}
-			}";
-		}
-		
-		private function gtagAction(){
-			return "function handleConsent(action) {
-					if(action !== '4'){
-						gtag('consent', 'update', {
-							'ad_storage': checkInput('ad_storage',action), //sz�ks�ges
-							'ad_user_data': checkInput('ad_user_data',action), //h�rdet�s
-							'ad_personalization': checkInput('ad_personalization',action), //preferences
-							'analytics_storage': checkInput('analytics_storage',action) //statisztika
-						});
-						$.cookie('cookie_accept', 'true',{ path: '/' , expires: 800});
-						$('.google_cookie').addClass('hideCookie');
-						$('.google_cookie').removeClass('showCookie');
-					}
-					else{
-						$('.cookie_options').addClass('cookieOpen');
-					}
-				}
-			
-				function checkInput(name,action){
-					var result = '';
-					switch(action){
-						case '1':
-							result = 'denied';
-							break;
-						case '2':
-							result = 'granted';
-							break;
-						case '3':
-							if($('input[name=\'' + name + '\']').is(':checked')){
-								result = 'granted';
-							}
-							else{
-								result = 'denied';
-							}
-							break;
-					}
-					$.cookie(name, result,{ path: '/' , expires: 800});
-					return result;
-				}
-			";
 		}
 		
 		private function cookieSrc(){
 			return '<script type="text/javascript" src="/cookieConsent/js/cookie.js"></script>
+				<script type="text/javascript" src="/cookieConsent/js/consent.js"></script>
 				<link type="text/css" rel="stylesheet" href="/cookieConsent/css/cookie.css" media="all"/>
 			';
 		}
@@ -147,10 +53,10 @@
 						</div>
 					</div>
 					<div class="cookie_buttons">
-						<button onclick="handleConsent(\'2\')">'.$this->transLate("cookie_allow",$this->lang).'</button>
-						<button onclick="handleConsent(\'4\')">'.$this->transLate("cookie_setup",$this->lang).'</button>
-						<button onclick="handleConsent(\'3\')">'.$this->transLate("cookie_select",$this->lang).'</button>
-						<button onclick="handleConsent(\'1\')">'.$this->transLate("cookie_deny",$this->lang).'</button>
+						<button onclick="consentJS.handleConsent(\'2\')">'.$this->transLate("cookie_allow",$this->lang).'</button>
+						<button onclick="consentJS.handleConsent(\'4\')">'.$this->transLate("cookie_setup",$this->lang).'</button>
+						<button onclick="consentJS.handleConsent(\'3\')">'.$this->transLate("cookie_select",$this->lang).'</button>
+						<button onclick="consentJS.handleConsent(\'1\')">'.$this->transLate("cookie_deny",$this->lang).'</button>
 					</div>
 				</div>
 			';

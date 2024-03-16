@@ -1,9 +1,9 @@
 <?php 
 
-	namespace Common;
+	namespace Db;
 	
 	/**
-	 * Abstract Class Database
+	 * Abstract Class Db\Database
 	 */
 	abstract class Database{
 

@@ -1,11 +1,11 @@
 <?php
     
-    namespace Common;
+    namespace Db;
 	
 	/**
-	 * Class Common\PDO
+	 * Class Db\SqlDb
 	*/
-	class PDO extends Database{
+	class SqlDb extends Database{
 
 		protected const dbHost = "";
 
