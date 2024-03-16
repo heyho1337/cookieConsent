@@ -39,7 +39,7 @@
 						<div class="check">
 							<input type="checkbox" id="ad_personalization" name="ad_personalization">
 							<span class="fa fa-check"></span>
-							<label for="ad_personalization">'.$this->transLate("cookie_options2",$this->lang).'</label>
+							<label for="ad_personalization">'.$this->transLate("cookie_ad_personalization",$this->lang).'</label>
 						</div>
 						<div class="check">
 							<input type="checkbox" id="ad_user_data" name="ad_user_data">
