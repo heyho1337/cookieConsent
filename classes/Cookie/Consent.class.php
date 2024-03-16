@@ -34,6 +34,13 @@
 					  'ad_personalization': 'denied',
 					  'analytics_storage': 'denied'
 					});
+
+					gtag('consent', 'update', {
+						'ad_storage': 'denied',
+						'ad_user_data': 'denied',
+						'ad_personalization': 'denied',
+						'analytics_storage': 'denied'
+					});
 				}
 				
 				if($.cookie('cookie_accept') === 'true'){
@@ -116,12 +123,12 @@
 		
 		private function cookieHTML(){
 			return '<div class="google_cookie">
-					<span>'.$this->transLate("cookie",$this->lang).'</span>
+					<span>'.$this->transLate("cookie_text",$this->lang).'</span>
 					<div class="cookie_options">
 						<div class="check">
 							<input checked type="checkbox" id="ad_storage" name="ad_storage">
 							<span class="fa fa-check"></span>
-							<label for="ad_storage">'.$this->transLate("cookie_options0",$this->lang).'</label>
+							<label for="ad_storage">'.$this->transLate("cookie_ad_storage",$this->lang).'</label>
 						</div>
 						<div class="check">
 							<input type="checkbox" id="ad_personalization" name="ad_personalization">
@@ -131,12 +138,12 @@
 						<div class="check">
 							<input type="checkbox" id="ad_user_data" name="ad_user_data">
 							<span class="fa fa-check"></span>
-							<label for="ad_user_data">'.$this->transLate("cookie_options1",$this->lang).'</label>
+							<label for="ad_user_data">'.$this->transLate("cookie_ad_user_data",$this->lang).'</label>
 						</div>
 						<div class="check">
 							<input type="checkbox" id="analytics_storage" name="analytics_storage">
 							<span class="fa fa-check"></span>
-							<label for="analytics_storage">'.$this->transLate("cookie_options3",$this->lang).'</label>
+							<label for="analytics_storage">'.$this->transLate("cookie_analytics_storage",$this->lang).'</label>
 						</div>
 					</div>
 					<div class="cookie_buttons">
@@ -169,11 +176,11 @@
 		}
 
 		public function setText(){
-			$this->insertText('cookie','cookie basic text');
-			$this->insertText('cookie_options0','ad_storage text');
-			$this->insertText('cookie_options1','ad_user_data text');
-			$this->insertText('cookie_options2','ad_personalization text');
-			$this->insertText('cookie_options3','analytics_storage');
+			$this->insertText('cookie_text','cookie basic text');
+			$this->insertText('cookie_ad_storage','ad_storage text');
+			$this->insertText('cookie_ad_user_data','ad_user_data text');
+			$this->insertText('cookie_ad_personalization','ad_personalization text');
+			$this->insertText('cookie_analytics_storage','analytics_storage text');
 			$this->insertText('cookie_deny','Deny');
 			$this->insertText('cookie_setup','Options');
 			$this->insertText('cookie_select','Accept options');
