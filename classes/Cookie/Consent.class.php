@@ -8,6 +8,7 @@
 	class Consent extends \Db\SqlDb{
 		
 		function __construct(protected string $gtagCode,protected string $lang){
+			parent::__construct();
 			echo $this->cookieSrc();
 			echo '<script>
 				const consentJS = new ConsentJS("'.$this->gtagCode.'", "'.$this->lang.'");
@@ -20,9 +21,9 @@
 		 * @return html
 		*/
 		private function cookieSrc(){
-			return '<script type="text/javascript" src="/cookieConsent/js/cookie.js"></script>
-				<script type="text/javascript" src="/cookieConsent/js/consent.js"></script>
-				<link type="text/css" rel="stylesheet" href="/cookieConsent/css/cookie.css" media="all"/>
+			return '<script type="text/javascript" src="/js/cookie.js"></script>
+				<script type="text/javascript" src="/js/consent.js"></script>
+				<link type="text/css" rel="stylesheet" href="/style/cookie.css" media="all"/>
 			';
 		}
 		
@@ -75,13 +76,15 @@
 			$query = $this->select("words",array('*'),array('word_code' => $code),'');
 			if($query['status'] === 'success'){
 				$this->update('words',array('word_'.$this->lang => $text),array('word_code' => $code));
+				$result = $query['message'];
 			}
 			else{
 				$_POST['word_'.$this->lang] = $text;
 				$_POST['word_code'] = $code;
 				$query = $this->insert('words');
+				$result = $query();
 			}
-			return $query['message'];
+			return $result;
 		}
 	
 		/**
