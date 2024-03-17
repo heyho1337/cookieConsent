@@ -16,6 +16,5 @@ under developement
 # useage
 1. include("includes/autoloader.inc.php");
 2. $cookieConsent = new \Cookie\Consent("gtagCode","languageCode");
-3. //run these once separetly, then delete these two lines:
-4. $cookieConsent->createWordsTable();
-5. $cookieConsent->setText();
+4. run this method on the server: $cookieConsent->createWordsTable(); 
+5. run this method on the server: $cookieConsent->setText();
