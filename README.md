@@ -14,3 +14,11 @@ under developement
 3. initialize the consent php class
 4. after initialization, you need to run
 once the createWordsTable and after that the setText methods.
+# usage
+<?php
+	include("includes/autoloader.inc.php");
+	$cookieConsent = new Consent("gtagCode","languageCode");
+	//run these once, then delete these two lines:
+	$cookieConsent->createWordsTable();
+	$cookieConsent->setText();
+?>
