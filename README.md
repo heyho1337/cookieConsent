@@ -17,6 +17,6 @@ once the createWordsTable and after that the setText methods.
 # usage
 1. include("includes/autoloader.inc.php");
 2. $cookieConsent = new \Cookie\Consent("gtagCode","languageCode");
-3. //run these once, then delete these two lines:
+3. //run these once separetly, then delete these two lines:
 4. $cookieConsent->createWordsTable();
 5. $cookieConsent->setText();
