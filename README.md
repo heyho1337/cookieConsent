@@ -6,8 +6,9 @@ under developement
 
 # dependencies
 1. php8 or higher
-2. jquery 1.8 or higher
-3. implemented googletag manager
+2. mysql mariadb 10 or higher
+3. jquery 1.8 or higher
+4. implemented googletag manager
 # install
 1. download the repo
 2. upload the folders onto the server
