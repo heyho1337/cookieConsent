@@ -15,8 +15,8 @@ under developement
 4. after initialization, you need to run
 once the createWordsTable and after that the setText methods.
 # usage
-include("includes/autoloader.inc.php");
-$cookieConsent = new \Cookie\Consent("gtagCode","languageCode");
-//run these once, then delete these two lines:
-$cookieConsent->createWordsTable();
-$cookieConsent->setText();
+1. include("includes/autoloader.inc.php");
+2. $cookieConsent = new \Cookie\Consent("gtagCode","languageCode");
+3. //run these once, then delete these two lines:
+4. $cookieConsent->createWordsTable();
+5. $cookieConsent->setText();
