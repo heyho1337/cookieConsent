@@ -33,7 +33,7 @@
 		*/
 		private function cookieHTML(){
 			return '<div class="google_cookie">
-					<span>'.$this->transLate("cookie_text",$this->lang).'</span>
+					<span>{$this->transLate("cookie_text",$this->lang)}</span>
 					<div class="cookie_options">
 						<div class="check">
 							<input checked type="checkbox" id="ad_storage" name="ad_storage">

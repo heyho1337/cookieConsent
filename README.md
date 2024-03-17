@@ -2,7 +2,7 @@
 google cookie consent mode php module
 
 # status
-under developement
+v1.0 beta
 
 # dependencies
 1. php8 or higher
