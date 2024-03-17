@@ -26,6 +26,9 @@ class ConsentJS{
 		ShowCookie();
 	}
 
+	/**
+	 * shows the cookie module on the 1st visit of the user
+	*/
 	ShowCookie() {
 		$(document).ready(function(){
 			if(this.cookie_accept === 'false'){
@@ -34,6 +37,10 @@ class ConsentJS{
 		});
 	}
 	
+	/**
+	 * setting the tag manager's consent data on the 1st vision
+	 * of the user 
+	*/
 	acceptFalse() {
 		gtag('consent', 'default', {
 			'ad_storage': 'denied',
@@ -50,6 +57,10 @@ class ConsentJS{
 		});
 	}
 
+	/**
+	 * setting the tag manager's consent data based on the
+	 * selected values of the user when the user opens the site
+	*/
 	acceptTrue() {
 		gtag('consent', 'update', {
 			'ad_storage': setGtag('ad_storage'),
@@ -59,6 +70,10 @@ class ConsentJS{
 		});
 	}
 
+	/**
+	 * setting a cookie for user's consent data
+	 * @param string name - the constent parameter's name 
+	*/
 	setGtag(name) {
 		if ($.cookie(name) === 'granted') {
 			return 'granted';
@@ -68,6 +83,18 @@ class ConsentJS{
 		}
 	}
 
+	/**
+	 * the handling of the cookie modul's submission
+	 * this function saves the user's selected consent
+	 * parameter into cookies so it can set them when the 
+	 * user opens the site
+	 * @param string action - the button's id that was clicked
+	 * 1 - deny all
+	 * 2 - grant all
+	 * 3 - set the selected options
+	 * 4 - open the module to allow the user to determine which
+	 * consent parameters they want to deny or grant
+	*/
 	handleConsent(action) {
 		switch (action) {
 			case '4':
@@ -87,7 +114,13 @@ class ConsentJS{
 		}
 	}
 
-	checkInput(name,action){
+	/**
+	 * the basic method for setting the cookies for the consent parameters
+	 * based on the user's choice
+	 * @param string name - name of the consent parameter
+	 * @param string action - 1: denied | 2: granted the value of the consent parameter 
+	 */
+	checkInput(name, action) {
 		var result = '';
 		switch(action){
 			case '1':

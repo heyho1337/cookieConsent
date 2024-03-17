@@ -7,11 +7,6 @@
 	*/
 	class Consent extends \Db\SqlDb{
 		
-		protected array $wordsTable = [
-			'word_id' => 'INT AUTO_INCREMENT PRIMARY KEY',
-			'word_code' => 'VARCHAR(50)'
-		];
-		
 		function __construct(protected string $gtagCode,protected string $lang){
 			echo $this->cookieSrc();
 			echo '<script>
@@ -20,6 +15,10 @@
 			echo $this->cookieHTML();
 		}
 		
+		/**
+		 * loading a neccesary resources for the module
+		 * @return html
+		*/
 		private function cookieSrc(){
 			return '<script type="text/javascript" src="/cookieConsent/js/cookie.js"></script>
 				<script type="text/javascript" src="/cookieConsent/js/consent.js"></script>
@@ -27,6 +26,10 @@
 			';
 		}
 		
+		/**
+		 * rendering the module's html
+		 * @return html 
+		*/
 		private function cookieHTML(){
 			return '<div class="google_cookie">
 					<span>'.$this->transLate("cookie_text",$this->lang).'</span>
@@ -62,6 +65,12 @@
 			';
 		}
 
+		/**
+		 * inserting the the translations of the module's texts into the database
+		 * @param string $code - the id of the text's
+		 * @param string $text - the text that connected to the id 
+		 * @return string
+		*/
 		private function insertText($code,$text){
 			$query = $this->select("words",array('*'),array('word_code' => $code),'');
 			if($query['status'] === 'success'){
@@ -72,15 +81,26 @@
 				$_POST['word_code'] = $code;
 				$query = $this->insert('words');
 			}
+			return $query['message'];
 		}
 	
-		private function transLate($words_code){
-			$word = $this->select("words",array('*'),array('word_code' => $words_code),'');
+		/**
+		 * get the id's translated text for the current language
+		 * @param string $code - the text's id 
+		 * @return string
+		*/
+		private function transLate($code){
+			$word = $this->select("words",array('*'),array('word_code' => $code),'');
 			if($word['status'] === 'success'){
-				return $word->{'word_'.$this->lang};
+				return $word['data'][0]->{'word_'.$this->lang};
 			}
+			return $word['message'];
 		}
 
+		/**
+		 * insertind all neccesary texts into the database, this method only
+		 * needs to run once.
+		*/
 		public function setText(){
 			$this->insertText('cookie_text','cookie basic text');
 			$this->insertText('cookie_ad_storage','ad_storage text');
@@ -93,6 +113,11 @@
 			$this->insertText('cookie_allow','Accep');
 		}
 
+		/**
+		 * adding the current language's colum into the database
+		 * and then creating the database is if not exists
+		 * this method only needs to run once. 
+		*/
 		public function createWordsTable(){
 			$this->wordsTable['word_'.$this->lang] = 'TEXT';
 			$this->create('words',$this->wordsTable);

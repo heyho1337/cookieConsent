@@ -14,38 +14,22 @@
 		protected const tbl_prefix = "";
 		
 		/**
-		 * commnets soon 
+		 * select row or rows from the databse
 		*/
-		abstract protected function selectQuery($table, $columns, $where, $order, $group = null);
+		abstract protected function select($table, $columns, $where, $order, $group = null);
     	
 		/**
-		 * commnets soon 
+		 * insert rows into a database
 		*/
-		abstract protected function insertQuery($table);
+		abstract protected function insert($table);
     	
 		/**
-		 * commnets soon 
+		 * update a row's columns in the database
 		*/
-		abstract protected function updateQuery($table, $fields, $where);
+		abstract protected function update($table, $fields, $where);
 		
 		/**
-		 * commnets soon 
+		 * create a database table if it is not extist allready
 		*/
-		abstract protected function createQuery($tableName, $columns);
-
-		public function create($tableName, $columns){
-			$this->createQuery($tableName, $columns);
-		}
-
-		public function select($table, $columns, $where, $order,$group = null) {
-			return $this->selectQuery($table, $columns, $where, $order,$group);
-		}
-
-		public function insert($table) {
-			return $this->insertQuery($table);
-		}
-
-		public function update($table,$fields,$where) {
-			return $this->updateQuery($table,$fields,$where);
-		}
+		abstract protected function create($tableName, $columns);
 	}

@@ -8,6 +8,14 @@
 	class SqlDb extends Database{
 
 		protected const dbHost = "";
+		
+		/***
+		 * database table for the module's texts  
+		*/
+		protected array $wordsTable = [
+			'word_id' => 'INT AUTO_INCREMENT PRIMARY KEY',
+			'word_code' => 'VARCHAR(50)'
+		];
 
         function __construct(){
            	$dsn = 'mysql:host='.self::dbHost.';dbname='.self::dbName.';port=3311;charset=utf8';
@@ -22,8 +30,18 @@
             }
         }
         
-
-        protected function selectQuery($table, $columns, $where, $order,$group = null){
+		/**
+		 * select row or rows from the databse
+		 * @param string $table - the database table's name
+		 * @param array $columns - the columns that you want to select from the database: 
+		 * array('column1','column2','column3') for all columns: array('*')
+		 * @param array $where - the conditions for selecting rows from the database:
+		 * array('column1' => $value1, 'column2' => $value2)
+		 * @param string $order - the ordering of the rows
+		 * @param string $group - you can use groupby here
+		 * @return array ['status', 'message', 'data', 'rowCount', 'query'];
+		*/
+        protected function select($table, $columns, $where, $order,$group = null){
             try{
                 $a = array();
                 $w = "";
@@ -69,8 +87,16 @@
             return $response; 
         }
 		
-
-		protected function insertQuery($table){
+		/**
+		 * insert rows into a database table based on the $_POST array.
+		 * Before you run this method you need to set the $_POST with the
+		 * columns and their values:
+		 * $_POST['column1'] = $value1;
+		 * $_POST['column2'] = $value2;
+		 * @param string $table - database table's name
+		 * @return string - the inserted row's id
+		*/
+		protected function insert($table){
 			$data = $_POST;
 			$type = $this->conn->query("SELECT DATA_TYPE FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME='".self::tbl_prefix.$table."'");
 			$type2 = $type->fetchAll(\PDO::FETCH_COLUMN);
@@ -104,8 +130,16 @@
 			return $last_insert_id;
 		}
 
-		
-		protected function updateQuery($table,$fields,$where){
+		/**
+		 * update a row's columns in the databse
+		 * @param string $table - the database table's name
+		 * @param array $fields - the columns that you want to set in the database row: 
+		 * array('column1' => $value1, 'column2' => $value2)
+		 * @param array $where - the conditions for selecting the row from the database:
+		 * array('column1' => $value1, 'column2' => $value2)
+		 * @return array ['status', 'message', 'data', 'rowCount', 'query'];
+		*/
+		protected function update($table,$fields,$where){
 			$sql="UPDATE ".self::tbl_prefix.$table." SET ";
 			$j = 0;
 			$w = " WHERE ";
@@ -142,7 +176,17 @@
 			return $result;
 		}
 
-		protected function createQuery($tableName, $columns){
+		/**
+		 * create a database table if it is not exists allready
+		 * @param string $tablename - name of the database table
+		 * @param array $columns - the columns you want in the databse,example:
+		 * [
+		 * 'id' => 'INT AUTO_INCREMENT PRIMARY KEY',
+		 * 'label' => 'VARCHAR(50)'
+		 * }
+		 * @return boolean
+		*/
+		protected function create($tableName, $columns){
 			try {
 				$query = "CREATE TABLE IF NOT EXISTS " . self::tbl_prefix . $tableName . " (";
 				foreach ($columns as $columnName => $columnDefinition) {

@@ -11,20 +11,20 @@
 
 		}
 
-		protected function selectQuery($table, $columns, $where, $order, $group = null){
+		protected function select($table, $columns, $where, $order, $group = null){
 
 		}
 
-		protected function insertQuery($table){
+		protected function insert($table){
 
 		}
 
-		protected function updateQuery($table, $fields, $where){
+		protected function update($table, $fields, $where){
 
 		}
 		
 
-		protected function createQuery($tableName, $columns){
+		protected function create($tableName, $columns){
 
 		}
 	}
