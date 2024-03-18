@@ -7,7 +7,7 @@
 	*/
 	class Consent extends \Db\SqlDb{
 		
-		function __construct(protected string $gtagCode,protected string $lang){
+		function __construct(protected string $gtagCode,protected string $lang, protected array $words){
 			parent::__construct();
 			echo $this->cookieSrc();
 			echo '<script>
@@ -72,14 +72,14 @@
 		 * @param string $text - the text that connected to the id 
 		 * @return string
 		*/
-		private function insertText($code,$text){
+		private function insertText($code,$text,$lang){
 			$query = $this->select("words",array('*'),array('word_code' => $code),'');
 			if($query['status'] === 'success'){
-				$this->update('words',array('word_'.$this->lang => $text),array('word_code' => $code));
+				$this->update('words',array('word_'.$lang => $text),array('word_code' => $code));
 				$result = $query['message'];
 			}
 			else{
-				$_POST['word_'.$this->lang] = $text;
+				$_POST['word_'.$lang] = $text;
 				$_POST['word_code'] = $code;
 				$query = $this->insert('words');
 				$result = $query();
@@ -105,24 +105,24 @@
 		 * needs to run once.
 		*/
 		public function setText(){
-			$this->insertText('cookie_text','cookie basic text');
-			$this->insertText('cookie_ad_storage','ad_storage text');
-			$this->insertText('cookie_ad_user_data','ad_user_data text');
-			$this->insertText('cookie_ad_personalization','ad_personalization text');
-			$this->insertText('cookie_analytics_storage','analytics_storage text');
-			$this->insertText('cookie_deny','Deny');
-			$this->insertText('cookie_setup','Options');
-			$this->insertText('cookie_select','Accept options');
-			$this->insertText('cookie_allow','Accep');
+			foreach($this->words as $key => $value){
+				foreach($value as $key2 => $value2){
+					$this->insertText($key,$value2,$key2);
+				}
+			}
 		}
 
 		/**
-		 * adding the current language's colum into the database
+		 * adding the language colums into the database
 		 * and then creating the database is if not exists
 		 * this method only needs to run once. 
 		*/
 		public function createWordsTable(){
-			$this->wordsTable['word_'.$this->lang] = 'TEXT';
+			foreach($this->words['cookie_text'] as $key => $value){
+				foreach($value as $key2 => $value2){
+					$this->wordsTable['word_'.$key2] = 'TEXT';
+				}
+			}
 			$this->create('words',$this->wordsTable);
 		}
 		
