@@ -7,6 +7,11 @@
 	*/
 	class Consent extends \Db\SqlDb{
 		
+		/**
+		 * @param string $gtagCode - google tagmanager's code
+		 * @param string $lang current language's code
+		 * @param array $words - the texts,words translations that the consent modul will contain
+		*/
 		function __construct(protected string $gtagCode,protected string $lang, protected array $words){
 			parent::__construct();
 			echo $this->cookieSrc();
@@ -70,9 +75,10 @@
 		 * inserting the the translations of the module's texts into the database
 		 * @param string $code - the id of the text's
 		 * @param string $text - the text that connected to the id 
+		 * @param string $lang - the text's language code
 		 * @return string
 		*/
-		private function insertText($code,$text,$lang){
+		private function insertText(string $code,string $text,string $lang){
 			$query = $this->select("words",array('*'),array('word_code' => $code),'');
 			if($query['status'] === 'success'){
 				$this->update('words',array('word_'.$lang => $text),array('word_code' => $code));
@@ -92,7 +98,7 @@
 		 * @param string $code - the text's id 
 		 * @return string
 		*/
-		private function transLate($code){
+		private function transLate(string $code){
 			$word = $this->select("words",array('*'),array('word_code' => $code),'');
 			if($word['status'] === 'success'){
 				return $word['data'][0]->{'word_'.$this->lang};
