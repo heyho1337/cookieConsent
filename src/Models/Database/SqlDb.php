@@ -1,24 +1,16 @@
 <?php
     
-    namespace Db;
+    namespace Models\Database;
 	
 	/**
 	 * Class Db\SqlDb
 	*/
 	class SqlDb extends Database{
 
-		protected const dbHost = "";
-		
-		/***
-		 * database table for the module's texts  
-		*/
-		protected array $wordsTable = [
-			'word_id' => 'INT AUTO_INCREMENT PRIMARY KEY',
-			'word_code' => 'VARCHAR(50)'
-		];
+		protected const dbHost = "localhost";
 
         function __construct(){
-           	$dsn = 'mysql:host='.self::dbHost.';dbname='.self::dbName.';port=3311;charset=utf8';
+			$dsn = 'mysql:host='.self::dbHost.';dbname='.self::dbName.';charset=utf8';
             try {
               	$this->conn = new \PDO($dsn, self::dbUser, self::dbPass, array(\PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION));
             } catch (\PDOException $e) {
@@ -38,10 +30,10 @@
 		 * @param array $where - the conditions for selecting rows from the database:
 		 * array('column1' => $value1, 'column2' => $value2)
 		 * @param string $order - the ordering of the rows
-		 * @param string $group - you can use groupby here
+		 * @param string | null $group - you can use groupby here
 		 * @return array ['status', 'message', 'data', 'rowCount', 'query'];
 		*/
-        protected function select($table, $columns, $where, $order,$group = null){
+        protected function select(string $table, array $columns, array $where, string $order,string | null $group = null){
             try{
                 $a = array();
                 $w = "";
@@ -96,7 +88,7 @@
 		 * @param string $table - database table's name
 		 * @return string - the inserted row's id
 		*/
-		protected function insert($table){
+		protected function insert(string $table){
 			$data = $_POST;
 			$type = $this->conn->query("SELECT DATA_TYPE FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME='".self::tbl_prefix.$table."'");
 			$type2 = $type->fetchAll(\PDO::FETCH_COLUMN);
@@ -139,7 +131,7 @@
 		 * array('column1' => $value1, 'column2' => $value2)
 		 * @return array ['status', 'message', 'data', 'rowCount', 'query'];
 		*/
-		protected function update($table,$fields,$where){
+		protected function update(string $table, array $fields, array $where){
 			$sql="UPDATE ".self::tbl_prefix.$table." SET ";
 			$j = 0;
 			$w = " WHERE ";
@@ -186,7 +178,7 @@
 		 * }
 		 * @return boolean
 		*/
-		protected function create($tableName, $columns){
+		protected function create(string $tableName, array $columns){
 			try {
 				$query = "CREATE TABLE IF NOT EXISTS " . self::tbl_prefix . $tableName . " (";
 				foreach ($columns as $columnName => $columnDefinition) {

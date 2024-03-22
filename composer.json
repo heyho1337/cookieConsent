@@ -1,0 +1,19 @@
+{
+    "name": "heyho/cookie",
+    "description": "google cookie consent module",
+    "license": "GNU GPL",
+    "autoload": {
+        "psr-4": {
+            "Views\\": "src/Views/",
+			"Models\\": "src/Models/",
+			"Models\\Database\\": "src/Models/Database/",
+			"Controller\\": "src/Controllers/"
+        }
+    },
+    "authors": [
+        {
+            "name": "heyhodesigns"
+        }
+    ],
+    "require": {}
+}
