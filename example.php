@@ -1,7 +1,7 @@
 <?php
-
-	include("includes/autoloader.inc.php");
-
+	
+	require 'vendor/autoload.php';
+	
 	$words = [
 		"cookie_text" => ["en" => 'cookie basic text', "de" => 'cookie basic de'],
 		"cookie_ad_storage" => ["en" => 'ad_storage text', "de" => 'ad_storage de'],
@@ -13,7 +13,10 @@
 		"cookie_select" => ["en" => 'Accept options', "de" => 'Accept options de'],
 		"cookie_allow" => ["en" => 'Accept', "de" => 'Accept de']
 	];
-	
-	$cookieConsent = new \Cookie\Consent("gtagCode","en",$words);
-	$cookieConsent->createWordsTable();
-	$cookieConsent->setText();
+
+	$cookieConsent = new \Views\CookieConsentView("en",$words,"gtagCodeTest");
+	//setDb only needs to run once
+	//$cookieConsent->setDb();
+	echo $cookieConsent->cookieSrc();
+	echo $cookieConsent->consentJs();
+	echo $cookieConsent->cookieHTML();

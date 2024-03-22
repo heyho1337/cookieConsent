@@ -1,6 +1,6 @@
 <?php
     
-    namespace Db;
+    namespace Models\Database;
 	
 	/**
 	 * Class Db\FirebaseDb
