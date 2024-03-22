@@ -8,9 +8,9 @@
 	abstract class Database{
 
 		protected $conn;
-		protected const dbUser = "consent";
-		protected const dbPass = "consent123";
-		protected const dbName = "consentdb";
+		protected const dbUser = "";
+		protected const dbPass = "";
+		protected const dbName = "";
 		protected const tbl_prefix = "";
 		
 		/**

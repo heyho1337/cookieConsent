@@ -10,7 +10,7 @@
 		protected const dbHost = "localhost";
 
         function __construct(){
-			$dsn = 'mysql:host='.self::dbHost.';dbname='.self::dbName.';charset=utf8';
+			$dsn = 'mysql:host='.self::dbHost.';dbname='.self::dbName.';port=3311;charset=utf8';
             try {
               	$this->conn = new \PDO($dsn, self::dbUser, self::dbPass, array(\PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION));
             } catch (\PDOException $e) {
