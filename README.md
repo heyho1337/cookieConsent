@@ -9,12 +9,8 @@ v1.0 beta
 2. mysql mariadb 10 or higher
 3. jquery 1.8 or higher
 4. implemented googletag manager
-# install
-1. download the repo
-2. upload the folders onto the server
-3. follow #useage
-# useage
-1. include("includes/autoloader.inc.php");
-2. $cookieConsent = new \Cookie\Consent("gtagCode","languageCode");
-4. run this method on the server: $cookieConsent->createWordsTable(); 
-5. run this method on the server: $cookieConsent->setText();
+
+# setup
+1. clone the repo
+2. setup the database connection inside src\Models\Database\
+3. check example.php
